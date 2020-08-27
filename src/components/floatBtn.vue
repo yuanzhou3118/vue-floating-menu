@@ -157,6 +157,7 @@ export default {
     },
     moveStart(e) {
       console.log('moveStart');
+      if (event.button == 2) return;
       if (this.popoverShow) {
         this.moveFlags = false;
         return;
@@ -164,20 +165,13 @@ export default {
       this.clickFlag = true;
       let floatBtn = this.$refs.floatBtn; //获取目标元素
 
-      let touch;
-      if (e.touches) {
-        touch = e.touches[0];
-      } else {
-        touch = e;
-      }
-
-      this.movePosition.x = touch.clientX;
-      this.movePosition.y = touch.clientY;
+      this.movePosition.x = e.clientX;
+      this.movePosition.y = e.clientY;
 
       //计算鼠标相对元素的位置
       const { left, top } = this.transform;
-      this.dx = touch.clientX - left;
-      this.dy = touch.clientY - top;
+      this.dx = e.clientX - left;
+      this.dy = e.clientY - top;
 
       this.moveFlags = true;
 

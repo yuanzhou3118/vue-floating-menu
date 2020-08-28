@@ -1,35 +1,11 @@
 # Vue-Floating-Menu
 
-## Project setup
+[![Netlify Status](https://api.netlify.com/api/v1/badges/333eb4f0-852a-40ad-a5d0-bad45d4ef3bc/deploy-status)](https://vue-floating-menu.netlify.app)
 
-```
-yarn install
-```
+![](./src/assets/example.gif)
 
-### Compiles and hot-reloads for development
+## Usage
 
-```
-yarn run serve
-```
+Demo see here: https://vue-floating-menu.netlify.app
 
-### Compiles and minifies for production
-
-```
-yarn run build
-```
-
-### Run your tests
-
-```
-yarn run test
-```
-
-### Lints and fixes files
-
-```
-yarn run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+[![Edit Vue Floating Menu Examples](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/yuanzhou3118/vue-floating-menu)

@@ -1,16 +1,43 @@
 <template>
-  <div id="app">
-    <floatBtn />
+  <div
+    id="app"
+    :style="{
+      '--themeColor': form.themeColor.hex,
+      '--shadowColor': `rgba(${form.themeColor.rgba.r},${form.themeColor.rgba.g},${form.themeColor.rgba.b},0.1)`,
+    }"
+  >
+    <floatBtn :form="form" />
+    <img class="logo" alt="Vue logo" src="./assets/logo.svg" />
+    <HelloWorld :form="form" />
   </div>
 </template>
 
 <script>
+import HelloWorld from './components/HelloWorld.vue';
 import floatBtn from './components/floatBtn.vue';
 
 export default {
   name: 'App',
   components: {
     floatBtn,
+    HelloWorld,
+  },
+  data() {
+    return {
+      form: {
+        themeColor: {
+          hsl: { h: 200, s: 0, l: 0, a: 1 },
+          hex: '#000000',
+          hex8: '#000000FF',
+          rgba: { r: 0, g: 0, b: 0, a: 1 },
+          hsv: { h: 200, s: 0, v: 0, a: 1 },
+          oldHue: 200,
+          source: 'hex',
+          a: 1,
+        },
+        fontSize: 28,
+      },
+    };
   },
 };
 </script>
@@ -34,17 +61,22 @@ body {
     display: none !important;
   }
 }
+
+.logo {
+  width: 150px;
+  height: 140px;
+  object-fit: contain;
+}
+
 #app {
   font-family: 'SourceHanSansCN-Medium', 'SourceHanSansCN', 'Avenir', Helvetica,
     Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
-  color: #2c3e50;
+  color: #333;
   font-size: 14px;
-  text-align: left;
   overflow: hidden;
-  height: 100vh;
-  background: #1a237e;
+  text-align: center;
 }
 </style>

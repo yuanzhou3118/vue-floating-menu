@@ -3,7 +3,6 @@
     ref="page"
     :class="{ 'floating-window': true, zIndexTop: moveFlags }"
     @mouseup.stop.prevent="moveEnd"
-    @mousemove.stop.prevent="moving"
   >
     <div
       class="popover-content__trigger floatBtn"
@@ -34,18 +33,26 @@
                 closeMenuAndFloating();
               "
             >
-              <img src="../assets/float-icon.png" />自动标准化
+              <!-- <img src="../assets/float-icon.png" />自动标准化 -->
+              <i class="iconfont iconnut icon"></i>自动标准化
             </div>
           </div>
         </div>
       </transition>
-      <img class="icon" src="../assets/float-icon.png" />
+      <i
+        :style="{ fontSize: `${form.fontSize}px` }"
+        class="iconfont iconnut icon"
+      ></i>
+      <!-- <img class="icon" src="../assets/float-icon.png" /> -->
     </div>
   </div>
 </template>
 <script>
 export default {
   name: 'floating-window',
+  props: {
+    form: Object,
+  },
   data() {
     return {
       moveFlags: false,
@@ -86,6 +93,10 @@ export default {
     });
   },
   mounted() {
+    window.addEventListener('resize', () => {
+      this.$set(this.transform, 'top', document.body.offsetHeight - 300);
+      this.$set(this.transform, 'left', document.body.offsetWidth - 25);
+    });
     const floatBtn = this.$refs.floatBtn;
     document.addEventListener('click', (event) => {
       if (!floatBtn) return;
@@ -176,6 +187,8 @@ export default {
       this.moveFlags = true;
 
       document.onmousemove = async (e) => {
+        this.clickFlag = false;
+        this.moveFlags = true;
         console.log('onmousemove');
         let bodyWidth = document.body.clientWidth;
         let bodyHeight = document.body.clientHeight;
@@ -194,45 +207,17 @@ export default {
           top: this.yPum > 0 ? this.yPum : 0,
         });
       };
+      document.onmouseup = () => {
+        document.onmousemove = null;
+        document.onmouseup = null;
+        this.moveEnd();
+      };
     },
     generateTransform({ top, left }) {
       let floatBtn = this.$refs.floatBtn; //获取目标元素
       if (!floatBtn) return;
       this.$set(this.transform, 'left', left);
       this.$set(this.transform, 'top', top);
-    },
-    async moving(e) {
-      console.log('moving');
-      this.clickFlag = false;
-      if (this.moveFlags) {
-        this.hoverFlag = false;
-        let touch;
-        let floatBtn = this.$refs.floatBtn; //获取目标元素
-        if (e.touches) {
-          touch = e.touches[0];
-        } else {
-          touch = e;
-        }
-        let bodyWidth = document.body.clientWidth;
-        let bodyHeight = document.body.clientHeight;
-        let moveMaxHeight = bodyHeight - 30;
-        let moveMaxWidth = bodyWidth - floatBtn.offsetWidth / 2 + this.dx;
-
-        this.nx = touch.clientX;
-        this.ny = touch.clientY;
-        this.xPum = (this.nx > moveMaxWidth ? moveMaxWidth : this.nx) - this.dx;
-        this.yPum =
-          (this.ny > moveMaxHeight ? moveMaxHeight : this.ny) - this.dy;
-        await this.$nextTick();
-        this.lastMoveIndex++;
-        this.generateTransform({
-          left: this.xPum > -25 ? this.xPum : -25,
-          top: this.yPum > 0 ? this.yPum : 0,
-        });
-
-        e.preventDefault();
-        e.stopPropagation();
-      }
     },
     resetFloatBtnLocation() {
       console.log('------reset');
@@ -275,6 +260,8 @@ export default {
     cursor: pointer;
 
     .icon {
+      color: var(--themeColor);
+      font-size: 24px;
       -webkit-user-drag: none;
     }
 
@@ -336,13 +323,17 @@ export default {
       border: 0;
       line-height: 50px;
       font-size: 18px;
-      color: #1890ff;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 40px;
+      color: var(--themeColor);
 
-      > img {
+      &.el-button:hover {
+        background: var(--shadowColor);
+      }
+
+      > .icon {
         margin-right: 10px;
       }
     }

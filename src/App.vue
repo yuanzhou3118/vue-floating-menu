@@ -6,13 +6,16 @@
       '--shadowColor': `rgba(${form.themeColor.rgba.r},${form.themeColor.rgba.g},${form.themeColor.rgba.b},0.1)`,
     }"
   >
-    <floatBtn :form="form" />
+    <floatBtn ref="floatBtn" :form="form">
+      <menuPart @closeMenuAndFloating="closeMenuAndFloating"></menuPart>
+    </floatBtn>
     <img class="logo" alt="Vue logo" src="./assets/logo.svg" />
     <HelloWorld :form="form" />
   </div>
 </template>
 
 <script>
+import menuPart from './components/menuPart';
 import HelloWorld from './components/HelloWorld.vue';
 import floatBtn from './components/floatBtn.vue';
 
@@ -20,6 +23,7 @@ export default {
   name: 'App',
   components: {
     floatBtn,
+    menuPart,
     HelloWorld,
   },
   data() {
@@ -38,6 +42,11 @@ export default {
         fontSize: 28,
       },
     };
+  },
+  methods: {
+    closeMenuAndFloating() {
+      this.$refs.floatBtn.closeMenuAndFloating();
+    },
   },
 };
 </script>

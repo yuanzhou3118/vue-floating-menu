@@ -72,6 +72,9 @@ moveStart(e) {
 
 Demo see here: https://vue-floating-menu.netlify.app
 
+- **添加菜单的方式：**  
+  组件 src/components/menuPart.vue 是添加菜单的 demo
+
 **如果[vue-floating-menu](https://github.com/yuanzhou3118/vue-floating-menu)觉得不错的，记得给个 ⭐ 哟**
 
 [![Edit Vue Floating Menu Examples](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/yuanzhou3118/vue-floating-menu)

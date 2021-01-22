@@ -24,19 +24,26 @@
         class="hover-area"
       ></span>
       <transition name="floating-popover-fade-in-out">
-        <div class="floating-popover" :style="menuPosition" v-if="popoverShow">
-          <div class="popover-content">
-            <div
-              class="popover-content__item el-button"
-              @click.stop.prevent="
-                handleClickMenuAction();
-                closeMenuAndFloating();
-              "
-            >
-              <!-- <img src="../assets/float-icon.png" />自动标准化 -->
-              <i class="iconfont iconnut icon"></i>自动标准化
+        <div
+          ref="popoverContent"
+          class="floating-popover"
+          :style="menuPosition"
+          v-if="popoverShow"
+        >
+          <slot>
+            <div class="popover-content">
+              <div
+                class="popover-content__item el-button"
+                @click.stop.prevent="
+                  handleClickMenuAction();
+                  closeMenuAndFloating();
+                "
+              >
+                <!-- <img src="../assets/float-icon.png" />自动标准化 -->
+                <i class="iconfont iconnut icon"></i>自动标准化
+              </div>
             </div>
-          </div>
+          </slot>
         </div>
       </transition>
       <i
@@ -120,17 +127,19 @@ export default {
       this.moveFlags = false;
       this.resetFloatBtnLocation();
     },
-    toggleMenu() {
+    async toggleMenu() {
       //  如果上一次down事件到下一次click事件中 相同即为点击事件
       if (this.lastMoveIndex == this.curMoveIndex) {
         console.log(this.lastMoveIndex - this.curMoveIndex);
         console.warn('点击');
         this.popoverShow = !this.popoverShow;
+        await this.$nextTick();
         if (this.popoverShow) {
           document.onmousemove = null;
           const { top, left } = this.transform;
           if (top >= 60) {
-            this.menuPosition.top = '-60px';
+            this.menuPosition.top = `-${this.$refs.popoverContent.offsetHeight +
+              10}px`;
           } else {
             this.menuPosition.top = '60px';
           }
@@ -309,34 +318,10 @@ export default {
 }
 .floating-popover {
   position: absolute;
-  width: 182px;
+  /* width: 182px; */
   padding: 0 !important;
   border: 0 !important;
-  border-radius: 40px !important;
-  box-shadow: 0px 16px 34px 0px rgba(0, 49, 128, 0.2);
-
-  .popover-content {
-    &__item {
-      width: 100% !important;
-      height: 50px;
-      padding: 0;
-      border: 0;
-      line-height: 50px;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 40px;
-      color: var(--themeColor);
-
-      &.el-button:hover {
-        background: var(--shadowColor);
-      }
-
-      > .icon {
-        margin-right: 10px;
-      }
-    }
-  }
+  /* border-radius: 40px !important; */
+  /* box-shadow: 0px 16px 34px 0px rgba(0, 49, 128, 0.2); */
 }
 </style>
